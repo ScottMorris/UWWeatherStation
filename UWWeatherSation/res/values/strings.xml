@@ -2,4 +2,6 @@
 <resources>
     <string name="hello">Hello World, UWWeatherSationActivity!</string>
     <string name="app_name">UWWeatherSation</string>
+    <string name="navBarColour">#1240AB</string>
+    <string name="white">#000000</string>
 </resources>
