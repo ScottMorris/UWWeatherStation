@@ -2,17 +2,21 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent">
-    <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout1" android:layout_height="wrap_content" android:orientation="vertical">
-    </LinearLayout>
-    <LinearLayout android:layout_width="fill_parent" android:orientation="vertical" android:id="@+id/Navigation Bar" android:layout_height="60px">
-        <LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout2" android:layout_height="fill_parent" android:background="@string/navBarColour">
-            <Button android:id="@+id/button1" android:layout_height="fill_parent" android:layout_width="wrap_content" android:text="Home"></Button>
-        </LinearLayout>
-    </LinearLayout>
-    <RelativeLayout android:layout_width="fill_parent" android:id="@+id/relativeLayout1" android:layout_height="wrap_content">
-        <ImageView android:layout_width="wrap_content" android:src="@drawable/icon" android:layout_height="wrap_content" android:id="@+id/uwLogo" android:layout_centerHorizontal="true"></ImageView>
-        <TextView android:layout_width="wrap_content" android:text="--°C" android:layout_height="wrap_content" android:layout_centerHorizontal="true" android:textAppearance="?android:attr/textAppearanceLarge" android:id="@+id/homeTemp" android:layout_below="@+id/uwLogo"></TextView>
+    android:layout_height="fill_parent"
+    android:background="#FFFFFF">
+     <LinearLayout android:layout_width="fill_parent" android:orientation="vertical" android:id="@+id/navigationBar" android:layout_height="60px">
+     	<LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout2" android:layout_height="fill_parent" android:background="#1240AB">
+     		<Button android:id="@+id/button1" android:layout_height="fill_parent" android:layout_width="wrap_content" android:text="Home"></Button>
+     	</LinearLayout>
+     </LinearLayout>
+     <RelativeLayout android:layout_width="fill_parent" android:id="@+id/relativeLayout1" android:layout_height="wrap_content">
+         <LinearLayout android:layout_width="wrap_content" android:orientation="vertical" android:layout_height="wrap_content" android:id="@+id/uwWeatherTitle" android:layout_centerHorizontal="true">
+             <RelativeLayout android:layout_width="wrap_content" android:id="@+id/relativeLayout2" android:layout_height="wrap_content">
+                 <ImageView android:id="@+id/uwLogo" android:layout_width="wrap_content" android:paddingTop="3px" android:layout_height="wrap_content" android:src="@drawable/icon"></ImageView>
+                 <TextView android:layout_width="wrap_content" android:id="@+id/weatherLogoText" android:layout_height="wrap_content" android:text="Weather" android:textAppearance="?android:attr/textAppearanceLarge"  android:layout_toRightOf="@+id/uwLogo" android:layout_alignBottom="@+id/uwLogo" android:textStyle="bold" android:paddingLeft="3px" android:textColor="#000000"></TextView>
+             </RelativeLayout>
+         </LinearLayout>
+        <TextView android:layout_width="wrap_content" android:textColor="#000000" android:text="--°C" android:layout_height="wrap_content" android:layout_centerHorizontal="true" android:textAppearance="?android:attr/textAppearanceLarge" android:id="@+id/homeTemp" android:layout_below="@+id/uwWeatherTitle"></TextView>
         <TableLayout android:id="@+id/tableLayout1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_below="@+id/homeTemp">
             <TableRow android:id="@+id/tableRow1" android:layout_width="wrap_content" android:layout_height="wrap_content"></TableRow>
             <TableRow android:id="@+id/tableRow2" android:layout_width="wrap_content" android:layout_height="wrap_content"></TableRow>

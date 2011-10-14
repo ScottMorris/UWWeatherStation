@@ -4,4 +4,8 @@
     <string name="app_name">UWWeatherSation</string>
     <string name="navBarColour">#1240AB</string>
     <string name="white">#000000</string>
+    <string name="tempSuffixC">°C</string>
+    <string name="tempSuffixF">°F</string>
+    <string name="tempSuffixK">K</string>
+    <string name="tempSuffixR">R</string>
 </resources>
