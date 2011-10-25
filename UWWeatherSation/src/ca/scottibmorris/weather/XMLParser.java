@@ -11,8 +11,6 @@ import org.w3c.dom.Element;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import android.os.Message;
-
 
 public class XMLParser {
 	File xmlDocument;
@@ -29,8 +27,7 @@ public class XMLParser {
             Document dom = builder.parse(xmlDocument);
             Element root = dom.getDocumentElement();
             NodeList items = root.getElementsByTagName("current_observation");
-            for (int i=0;i<items.getLength();i++){
-                Message message = new Message();
+            for (int i=0; i<items.getLength(); i++){
                 Node item = items.item(i);
                 xmlItems.put(item.getNodeName(), item.getNodeValue());
             }
