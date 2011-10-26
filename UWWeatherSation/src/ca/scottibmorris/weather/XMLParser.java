@@ -1,6 +1,6 @@
 package ca.scottibmorris.weather;
 
-import java.io.File;
+import java.io.InputStream;
 import java.util.HashMap;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -13,9 +13,9 @@ import org.w3c.dom.NodeList;
 
 
 public class XMLParser {
-	File xmlDocument;
+	InputStream xmlDocument;
 	
-	public XMLParser(File xmlDocument) {
+	public XMLParser(InputStream xmlDocument) {
 		this.xmlDocument = xmlDocument;
 	}
 	

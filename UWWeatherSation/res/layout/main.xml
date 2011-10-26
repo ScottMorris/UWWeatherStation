@@ -7,6 +7,13 @@
      <LinearLayout android:layout_width="fill_parent" android:orientation="vertical" android:id="@+id/navigationBar" android:layout_height="60px">
      	<LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout2" android:layout_height="fill_parent" android:background="#1240AB">
      		<Button android:id="@+id/button1" android:layout_height="fill_parent" android:layout_width="wrap_content" android:text="Home"></Button>
+
+     		<Button
+     		    android:id="@+id/testButton"
+     		    android:layout_width="wrap_content"
+     		    android:layout_height="fill_parent"
+     		    android:text="Test" />
+
      	</LinearLayout>
      </LinearLayout>
      <RelativeLayout android:layout_width="fill_parent" android:id="@+id/relativeLayout1" android:layout_height="wrap_content">
@@ -24,4 +31,11 @@
             <TableRow android:id="@+id/tableRow4" android:layout_width="wrap_content" android:layout_height="wrap_content"></TableRow>
         </TableLayout>
     </RelativeLayout>
+
+     <TextView
+         android:id="@+id/textView1"
+         android:layout_width="wrap_content"
+         android:layout_height="wrap_content"
+         android:text="TextView" />
+
 </LinearLayout>
