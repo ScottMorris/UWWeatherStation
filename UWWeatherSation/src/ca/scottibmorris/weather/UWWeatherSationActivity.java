@@ -9,6 +9,8 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
 
+import javax.xml.XMLConstants;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
@@ -24,7 +26,8 @@ public class UWWeatherSationActivity extends Activity {
      */
 	public ImageView logo;
 	public Button testButton;
-	public TextView testView;
+	public TextView tempValue, testView;
+	HashMap<String, String> xmlContents;
     
 	/*
 	 * Other Variables
@@ -42,13 +45,42 @@ public class UWWeatherSationActivity extends Activity {
         logo.setImageResource(R.drawable.uwaterloo_logo);
         
         testView = (TextView)findViewById(R.id.textView1);
+        tempValue = (TextView)findViewById(R.id.homeTemp);
+        //Get XML Data from weather.uwaterloo.ca
+        boolean test = getXMLData();
+		testView.setText("Result: " + test);
+		try {
+			if (!test)
+				testView.append("\nNo Internet Connection");
+			//Write XML Data to a local file
+			FileInputStream fis = openFileInput("weather.xml");
+			testView.append("\nOpened File");
+			//Create an Instance of the Parser
+			XMLParser xmlParser = new XMLParser(fis, testView);
+			testView.append("\nCreated Instance of Parser");
+			//Parse XML Data
+			xmlContents = xmlParser.parse();
+			testView.append("\nParsed File");
+			//Make sure to close the fis
+			fis.close();
+			testView.append("\nClosed File");
+			testView.append("\n" + xmlContents.size());
+		} catch (Exception e) {
+			//TODO: write to application log
+			testView.append("\nParser Error!\n" + e);
+		}
+		//Update temperature
+		tempValue.setText(xmlContents.get("temperature_current_C") + tempSuffix);
+        
+        
+        
         
         testButton = (Button)findViewById(R.id.testButton);
         testButton.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				boolean test = getXMLData();
+				/*boolean test = getXMLData();
 				testView.setText("Result: " + test);
 				try {
 				FileInputStream fis = openFileInput("weather.xml");
@@ -56,9 +88,9 @@ public class UWWeatherSationActivity extends Activity {
 				//byte[] xmlData = new byte[(int) fis.getChannel().size()];			
 				//fis.read(xmlData);
 				//fis.close();
-				XMLParser xmlParser = new XMLParser(fis);
+				XMLParser xmlParser = new XMLParser(fis, testView);
 				testView.append("\nCreated Instance of Parser");
-				HashMap<String, String> xmlContents = xmlParser.parse();
+				xmlContents = xmlParser.parse();
 				testView.append("\nParsed File");
 				fis.close();
 				testView.append("\nClosed File");
@@ -67,6 +99,7 @@ public class UWWeatherSationActivity extends Activity {
 					//TODO: write to application log
 					testView.append("\nParser Error!\n" + e);
 				}
+				tempValue.setText(xmlContents.get("temperature_current_C") + tempSuffix);*/
 			}
 		});
         
