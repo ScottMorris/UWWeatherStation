@@ -4,7 +4,7 @@
     android:layout_height="fill_parent"
     android:background="#FFFFFF"
     android:isScrollContainer="true"
-    android:orientation="vertical" >
+    android:orientation="vertical">
 
      <LinearLayout android:layout_width="fill_parent" android:orientation="vertical" android:id="@+id/navigationBar" android:layout_height="60px">
      	<LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout2" android:layout_height="fill_parent" android:background="#1240AB">
@@ -26,9 +26,50 @@
              </RelativeLayout>
          </LinearLayout>
         <TextView android:layout_width="wrap_content" android:textColor="#000000" android:text="--°C" android:layout_height="wrap_content" android:layout_centerHorizontal="true" android:textAppearance="?android:attr/textAppearanceLarge" android:id="@+id/homeTemp" android:layout_below="@+id/uwWeatherTitle"></TextView>
-        <TableLayout android:id="@+id/tableLayout1" android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_below="@+id/homeTemp">
-            <TableRow android:id="@+id/tableRow1" android:layout_width="wrap_content" android:layout_height="wrap_content"></TableRow>
-            <TableRow android:id="@+id/tableRow2" android:layout_width="wrap_content" android:layout_height="wrap_content"></TableRow>
+
+        <TableLayout
+            android:id="@+id/tableLayout1"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/homeTemp" >
+
+            <TableRow android:id="@+id/tableRow1" android:layout_width="wrap_content" android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/temp24Label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
+                    android:paddingRight="10px"
+                    android:text="Temperature (24 hrs)" />
+
+                <TextView
+                    android:id="@+id/temp24"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
+                    android:text="TextView" />
+
+            </TableRow>
+            <TableRow android:id="@+id/tableRow2" android:layout_width="wrap_content" android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/precip24Label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="right"
+                    android:paddingRight="10px"
+                    android:text="Precipitation (24 hrs)"
+                    android:textColor="@android:color/black" />
+
+                <TextView
+                    android:id="@+id/precip24"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textColor="@android:color/black"
+                    android:text="TextView" />
+
+            </TableRow>
             <TableRow android:id="@+id/tableRow3" android:layout_width="wrap_content" android:layout_height="wrap_content"></TableRow>
             <TableRow android:id="@+id/tableRow4" android:layout_width="wrap_content" android:layout_height="wrap_content"></TableRow>
         </TableLayout>

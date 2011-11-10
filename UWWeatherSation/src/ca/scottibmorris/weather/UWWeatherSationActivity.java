@@ -3,13 +3,10 @@ package ca.scottibmorris.weather;
 import java.io.BufferedReader;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
-
-import javax.xml.XMLConstants;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -32,6 +29,7 @@ public class UWWeatherSationActivity extends Activity {
 	/*
 	 * Other Variables
 	 */
+	boolean isCelsius = true;
     String tempSuffix = "°C";
     
     
@@ -44,7 +42,7 @@ public class UWWeatherSationActivity extends Activity {
         logo = (ImageView)findViewById(R.id.uwLogo);
         logo.setImageResource(R.drawable.uwaterloo_logo);
         
-        testView = (TextView)findViewById(R.id.textView1);
+       /* testView = (TextView)findViewById(R.id.textView1);
         tempValue = (TextView)findViewById(R.id.homeTemp);
         //Get XML Data from weather.uwaterloo.ca
         boolean test = getXMLData();
@@ -70,9 +68,9 @@ public class UWWeatherSationActivity extends Activity {
 			testView.append("\nParser Error!\n" + e);
 		}
 		//Update temperature
-		tempValue.setText(xmlContents.get("temperature_current_C") + tempSuffix);
+		tempValue.setText(xmlContents.get("temperature_current_C") + tempSuffix);*/
         
-        
+        boolean weatherDataSuccess = updateWeatherData();
         
         
         testButton = (Button)findViewById(R.id.testButton);
@@ -139,11 +137,62 @@ alertDialog.show();
     		errorMessage.setMessage(e.toString());
     		errorMessage.show();
     	}
-    	
-    	
-    	
+
     	return success;    	
     }
     
+    private boolean updateWeatherData() {
+    	boolean success = true;
+    	TextView temp24, precip24;
+    	float tempNum, temp24Num;
+    	
+    	//TextView Elements
+    	testView = (TextView)findViewById(R.id.textView1);
+        tempValue = (TextView)findViewById(R.id.homeTemp);
+        temp24 = (TextView)findViewById(R.id.temp24);
+        precip24 = (TextView)findViewById(R.id.precip24);
+        
+        //Get XML Data from weather.uwaterloo.ca
+        boolean test = getXMLData();
+		testView.setText("Result: " + test);
+		try {
+			if (!test)
+				testView.append("\nNo Internet Connection");
+			//Write XML Data to a local file
+			FileInputStream fis = openFileInput("weather.xml");
+			testView.append("\nOpened File");
+			//Create an Instance of the Parser
+			XMLParser xmlParser = new XMLParser(fis, testView);
+			testView.append("\nCreated Instance of Parser");
+			//Parse XML Data
+			xmlContents = xmlParser.parse();
+			testView.append("\nParsed File");
+			//Make sure to close the fis
+			fis.close();
+			testView.append("\nClosed File");
+			testView.append("\n" + xmlContents.size());
+		} catch (Exception e) {
+			//TODO: write to application log
+			testView.append("\nParser Error!\n" + e);
+			success = false;
+		}
+		if(isCelsius){
+			//No Conversion Needed
+			tempNum = Float.valueOf(xmlContents.get("temperature_current_C"));
+			temp24Num = Float.valueOf(xmlContents.get("temperature_24hrmax_C"));
+		} else {
+			//Convert to Fahrenheit
+			tempNum = ((Float.valueOf(xmlContents.get("temperature_current_C"))) * (9/5)) + 32;
+			temp24Num = ((Float.valueOf(xmlContents.get("temperature_24hrmax_C"))) * (9/5)) + 32;
+		}
+		
+		//Update temperature
+		tempValue.setText(String.valueOf(tempNum) + tempSuffix);
+		temp24.setText(String.valueOf(temp24Num) + tempSuffix);
+		//precipitation_24hr_mm
+		precip24.setText(xmlContents.get("precipitation_24hr_mm") + " mm");
+		
+		return success;
+    }
     
 }
