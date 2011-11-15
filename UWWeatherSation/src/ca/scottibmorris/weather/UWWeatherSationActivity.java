@@ -11,6 +11,9 @@ import java.util.HashMap;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
@@ -31,6 +34,7 @@ public class UWWeatherSationActivity extends Activity {
 	 */
 	boolean isCelsius = true;
     String tempSuffix = "°C";
+    int counter = 0;
     
     
 	/** Called when the activity is first created. */
@@ -42,76 +46,49 @@ public class UWWeatherSationActivity extends Activity {
         logo = (ImageView)findViewById(R.id.uwLogo);
         logo.setImageResource(R.drawable.uwaterloo_logo);
         
-       /* testView = (TextView)findViewById(R.id.textView1);
-        tempValue = (TextView)findViewById(R.id.homeTemp);
-        //Get XML Data from weather.uwaterloo.ca
-        boolean test = getXMLData();
-		testView.setText("Result: " + test);
-		try {
-			if (!test)
-				testView.append("\nNo Internet Connection");
-			//Write XML Data to a local file
-			FileInputStream fis = openFileInput("weather.xml");
-			testView.append("\nOpened File");
-			//Create an Instance of the Parser
-			XMLParser xmlParser = new XMLParser(fis, testView);
-			testView.append("\nCreated Instance of Parser");
-			//Parse XML Data
-			xmlContents = xmlParser.parse();
-			testView.append("\nParsed File");
-			//Make sure to close the fis
-			fis.close();
-			testView.append("\nClosed File");
-			testView.append("\n" + xmlContents.size());
-		} catch (Exception e) {
-			//TODO: write to application log
-			testView.append("\nParser Error!\n" + e);
-		}
-		//Update temperature
-		tempValue.setText(xmlContents.get("temperature_current_C") + tempSuffix);*/
-        
         boolean weatherDataSuccess = updateWeatherData();
-        
         
         testButton = (Button)findViewById(R.id.testButton);
         testButton.setOnClickListener(new OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				/*boolean test = getXMLData();
-				testView.setText("Result: " + test);
-				try {
-				FileInputStream fis = openFileInput("weather.xml");
-				testView.append("\nOpened File");
-				//byte[] xmlData = new byte[(int) fis.getChannel().size()];			
-				//fis.read(xmlData);
-				//fis.close();
-				XMLParser xmlParser = new XMLParser(fis, testView);
-				testView.append("\nCreated Instance of Parser");
-				xmlContents = xmlParser.parse();
-				testView.append("\nParsed File");
-				fis.close();
-				testView.append("\nClosed File");
-				testView.append("\n" + xmlContents.size());
-				} catch (Exception e) {
-					//TODO: write to application log
-					testView.append("\nParser Error!\n" + e);
-				}
-				tempValue.setText(xmlContents.get("temperature_current_C") + tempSuffix);*/
+				//TODO: Use for Testing New Features 
 			}
 		});
         
     }
     
     /*
-     * AlertDialog alertDialog;
-alertDialog = new AlertDialog.Builder(this).create();
-alertDialog.setTitle("Packing List");
-alertDialog.setMessage("Could not find the file.");
-alertDialog.show();
+     * Create the Options menu for this activity
+     * @see android.app.Activity#onCreateOptionsMenu(android.view.Menu)
      */
+    @Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		MenuInflater inflater = getMenuInflater();
+		inflater.inflate(R.menu.home_screen_menu, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
     
-    private boolean getXMLData() {
+    /*
+     * Handle option menu selection
+     * @see android.app.Activity#onOptionsItemSelected(android.view.MenuItem)
+     */
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+		switch (item.getItemId()) {
+		case R.id.updateWeatherOption:
+			updateWeatherData();
+			break;
+		}
+		return super.onOptionsItemSelected(item);
+	}
+
+	/*
+	 * getXMLData
+	 * Download the XML Data from weather.uwaterloo.ca and save it to a local XML file
+	 */
+	private boolean getXMLData() {
     	boolean success = true;
     	String xmlDataAddress = "http://weather.uwaterloo.ca/waterloo_weather_station_data.xml";
     	URL xmlDataURL;
@@ -132,15 +109,20 @@ alertDialog.show();
     	} catch (Exception e) {
     		success = false;
     		//TODO: Wrote to application log
-    		AlertDialog errorMessage = new AlertDialog.Builder(this).create();
-    		errorMessage.setTitle("Parser Error");
+    		/*AlertDialog errorMessage = new AlertDialog.Builder(this).create();
+    		errorMessage.setTitle("Network Error");
     		errorMessage.setMessage(e.toString());
-    		errorMessage.show();
+    		errorMessage.show();*/
     	}
 
     	return success;    	
     }
     
+	/*
+	 * updateWeatherData
+	 * Check for freshness of the data (if its older than 15 min)
+	 * Parse the local copy of the weather data and update the information displayed
+	 */
     private boolean updateWeatherData() {
     	boolean success = true;
     	TextView temp24, precip24;
@@ -152,9 +134,15 @@ alertDialog.show();
         temp24 = (TextView)findViewById(R.id.temp24);
         precip24 = (TextView)findViewById(R.id.precip24);
         
+        //debug counter
+        counter++;
+        
+        //TODO: Check freshness of the file (maybe reorganise the lookup procedure by
+        //moving the XML retrieval to the the end.
+        
         //Get XML Data from weather.uwaterloo.ca
         boolean test = getXMLData();
-		testView.setText("Result: " + test);
+		testView.setText("Result: " + test + "; Count: " + counter);
 		try {
 			if (!test)
 				testView.append("\nNo Internet Connection");
