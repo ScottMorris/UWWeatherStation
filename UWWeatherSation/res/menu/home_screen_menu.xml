@@ -1,4 +1,5 @@
 
     <menu xmlns:android="http://schemas.android.com/apk/res/android">
         <item android:id="@+id/updateWeatherOption" android:visible="true" android:title="Update" android:enabled="true" android:icon="@drawable/refresh"></item>
+        <item android:id="@+id/CelsiusFahrenheitOption" android:visible="true" android:title="Celsius/Fahrenheit" android:enabled="true" android:icon="@drawable/refresh"></item>
     </menu>

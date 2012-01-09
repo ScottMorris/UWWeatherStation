@@ -6,10 +6,13 @@ import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
 import java.net.URLConnection;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -25,7 +28,7 @@ public class UWWeatherSationActivity extends Activity {
      * Resource Variables
      */
 	public ImageView logo;
-	public Button testButton;
+	public Button testButton, homeButton;
 	public TextView tempValue, testView;
 	HashMap<String, String> xmlContents;
     
@@ -48,7 +51,11 @@ public class UWWeatherSationActivity extends Activity {
         
         boolean weatherDataSuccess = updateWeatherData();
         
+        homeButton = (Button)findViewById(R.id.homeButton);
+        homeButton.setVisibility(View.INVISIBLE);
+        
         testButton = (Button)findViewById(R.id.testButton);
+        testButton.setVisibility(View.INVISIBLE);
         testButton.setOnClickListener(new OnClickListener() {
 			
 			@Override
@@ -80,8 +87,24 @@ public class UWWeatherSationActivity extends Activity {
 		case R.id.updateWeatherOption:
 			updateWeatherData();
 			break;
+		case R.id.CelsiusFahrenheitOption:
+			switchCelsiusFahrenheit();
+			break;
 		}
 		return super.onOptionsItemSelected(item);
+	}
+
+	/*
+	 * switchCelsiusFahrenheit
+	 * Toggles the displayed temperatures between Celsius and Fahrenheit
+	 */
+	private void switchCelsiusFahrenheit() {
+		isCelsius = !isCelsius;
+		if(isCelsius)
+			tempSuffix = "°C";
+		else
+			tempSuffix = "°F";
+		updateWeatherData();
 	}
 
 	/*
@@ -125,14 +148,18 @@ public class UWWeatherSationActivity extends Activity {
 	 */
     private boolean updateWeatherData() {
     	boolean success = true;
-    	TextView temp24, precip24;
-    	float tempNum, temp24Num;
+    	TextView temp24, temp24Min, precip24, updateDateTime;
+    	float tempNum, temp24Num, temp24MinNum;
+    	Date currentFileDateTime = null;
     	
     	//TextView Elements
     	testView = (TextView)findViewById(R.id.textView1);
         tempValue = (TextView)findViewById(R.id.homeTemp);
         temp24 = (TextView)findViewById(R.id.temp24);
+        temp24Min = (TextView)findViewById(R.id.temp24Min);
         precip24 = (TextView)findViewById(R.id.precip24);
+        updateDateTime = (TextView)findViewById(R.id.lastUpadte);
+        
         
         //debug counter
         counter++;
@@ -168,17 +195,35 @@ public class UWWeatherSationActivity extends Activity {
 			//No Conversion Needed
 			tempNum = Float.valueOf(xmlContents.get("temperature_current_C"));
 			temp24Num = Float.valueOf(xmlContents.get("temperature_24hrmax_C"));
+			temp24MinNum = Float.valueOf(xmlContents.get("temperature_24hrmin_C"));
 		} else {
 			//Convert to Fahrenheit
 			tempNum = ((Float.valueOf(xmlContents.get("temperature_current_C"))) * (9/5)) + 32;
 			temp24Num = ((Float.valueOf(xmlContents.get("temperature_24hrmax_C"))) * (9/5)) + 32;
+			temp24MinNum = ((Float.valueOf(xmlContents.get("temperature_24hrmin_C"))) * (9/5)) + 32;
+		}
+		
+		//Convert Update Time
+		DateFormat df = new SimpleDateFormat("MM/dd/yyyy HH:mm");
+		//Date String
+		String dateString = xmlContents.get("observation_month_number") + "/" +
+				xmlContents.get("observation_day") + "/" + xmlContents.get("observation_year") +
+				" " + xmlContents.get("observation_hour") + ":" + xmlContents.get("observation_minute");
+		try {
+			currentFileDateTime = df.parse(dateString);
+		} catch (ParseException e) {
+			testView.append("\nDate Parsing Error");
+			//e.printStackTrace();
 		}
 		
 		//Update temperature
 		tempValue.setText(String.valueOf(tempNum) + tempSuffix);
 		temp24.setText(String.valueOf(temp24Num) + tempSuffix);
+		temp24Min.setText(String.valueOf(temp24MinNum) + tempSuffix);
 		//precipitation_24hr_mm
 		precip24.setText(xmlContents.get("precipitation_24hr_mm") + " mm");
+		updateDateTime.setText(currentFileDateTime.toLocaleString());
+		
 		
 		return success;
     }
