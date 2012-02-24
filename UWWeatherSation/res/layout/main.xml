@@ -4,59 +4,125 @@
     android:layout_height="fill_parent"
     android:background="#FFFFFF"
     android:isScrollContainer="true"
-    android:orientation="vertical">
+    android:orientation="vertical" >
 
-     <LinearLayout android:layout_width="fill_parent" android:orientation="vertical" android:id="@+id/navigationBar" android:layout_height="60px">
-     	<LinearLayout android:layout_width="fill_parent" android:id="@+id/linearLayout2" android:layout_height="fill_parent" android:background="@drawable/title_bar_gradient_new"> <!-- Bar Colour #1240AB -->
+    <LinearLayout
+        android:id="@+id/navigationBar"
+        android:layout_width="fill_parent"
+        android:layout_height="60px"
+        android:orientation="vertical" >
 
-     		<Button
-     		    android:id="@+id/homeButton"
-     		    android:layout_width="wrap_content"
-     		    android:layout_height="fill_parent"
-     		    android:text="Home" >
-</Button>
+        <LinearLayout
+            android:id="@+id/linearLayout2"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:background="@drawable/title_bar_gradient_new" > <!-- Bar Colour #1240AB -->
 
-     		<Button
-     		    android:id="@+id/testButton"
-     		    android:layout_width="wrap_content"
-     		    android:layout_height="fill_parent"
-     		    android:text="Test" />
+            <ImageView
+                android:id="@+id/uwLogo"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="3px"
+                android:paddingTop="3px"
+                android:src="@drawable/uwaterloo_logo" />
 
-     	</LinearLayout>
-     </LinearLayout>
-     <RelativeLayout android:layout_width="fill_parent" android:id="@+id/relativeLayout1" android:layout_height="wrap_content">
-         <LinearLayout android:layout_width="wrap_content" android:orientation="vertical" android:layout_height="wrap_content" android:id="@+id/uwWeatherTitle" android:layout_centerHorizontal="true">
-             <RelativeLayout android:layout_width="wrap_content" android:id="@+id/relativeLayout2" android:layout_height="wrap_content">
-                 <ImageView android:id="@+id/uwLogo" android:layout_width="wrap_content" android:paddingTop="3px" android:layout_height="wrap_content" android:src="@drawable/icon"></ImageView>
-                 <TextView android:layout_width="wrap_content" android:id="@+id/weatherLogoText" android:layout_height="wrap_content" android:text="Weather" android:textAppearance="?android:attr/textAppearanceLarge"  android:layout_toRightOf="@+id/uwLogo" android:layout_alignBottom="@+id/uwLogo" android:textStyle="bold" android:paddingLeft="3px" android:textColor="#000000"></TextView>
-             </RelativeLayout>
-         </LinearLayout>
-        <TextView android:layout_width="wrap_content" android:textColor="#000000" android:text="--°C" android:layout_height="wrap_content" android:layout_centerHorizontal="true" android:textAppearance="?android:attr/textAppearanceLarge" android:id="@+id/homeTemp" android:layout_below="@+id/uwWeatherTitle"></TextView>
+            <TextView
+                android:id="@+id/weatherLogoText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:paddingLeft="3px"
+                android:paddingBottom="2px"
+                android:text="Weather Station"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textColor="#231f20"
+                android:textStyle="bold" />
+
+            <Button
+                android:id="@+id/testButton"
+                android:layout_width="wrap_content"
+                android:layout_height="fill_parent"
+                android:text="Test" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <RelativeLayout
+        android:id="@+id/relativeLayout1"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:id="@+id/uwWeatherTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:orientation="vertical" >
+
+            <RelativeLayout
+                android:id="@+id/relativeLayout2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+
+                <TextView
+                    android:id="@+id/currentlyLabel"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Currently"
+                	android:textAppearance="?android:attr/textAppearanceLarge"
+                	android:textColor="#000000"
+                	 />
+
+            </RelativeLayout>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/homeTemp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/uwWeatherTitle"
+            android:layout_centerHorizontal="true"
+            android:text="--°C"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textColor="@android:color/black" >
+        </TextView>
+        
+		<TextView
+            android:id="@+id/last24HrsLabel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/homeTemp"
+            android:layout_centerHorizontal="true"
+            android:text="Last 24 Hours"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:textColor="@android:color/black" />
 
         <TableLayout
             android:id="@+id/tableLayout1"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/homeTemp" >
+            android:layout_below="@+id/last24HrsLabel" >
 
-            <TableRow android:id="@+id/tableRow1" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <TableRow
+                android:id="@+id/tableRow1"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
 
                 <TextView
                     android:id="@+id/temp24Label"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
                     android:layout_gravity="right"
                     android:paddingRight="10px"
-                    android:text="Temperature (24 hrs)" />
+                    android:text="Temperature"
+                    android:textColor="@android:color/black" />
 
                 <TextView
                     android:id="@+id/temp24"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="TextView" />
-
+                    android:text="TextView"
+                    android:textColor="@android:color/black" />
             </TableRow>
 
             <TableRow
@@ -68,20 +134,23 @@
                     android:id="@+id/temp24MinLabel"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
                     android:paddingRight="10px"
-                    android:text="Temperature Min (24 hrs)" />
+                    android:layout_gravity="right"
+                    android:text="Temperature Min"
+                    android:textColor="@android:color/black" />
 
                 <TextView
                     android:id="@+id/temp24Min"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="TextView" />
-
+                    android:text="TextView"
+                    android:textColor="@android:color/black" />
             </TableRow>
 
-            <TableRow android:id="@+id/tableRow2" android:layout_width="wrap_content" android:layout_height="wrap_content">
+            <TableRow
+                android:id="@+id/tableRow2"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
 
                 <TextView
                     android:id="@+id/precip24Label"
@@ -89,19 +158,28 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:paddingRight="10px"
-                    android:text="Precipitation (24 hrs)"
+                    android:text="Precipitation"
                     android:textColor="@android:color/black" />
 
                 <TextView
                     android:id="@+id/precip24"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textColor="@android:color/black"
-                    android:text="TextView" />
-
+                    android:text="TextView"
+                    android:textColor="@android:color/black" />
             </TableRow>
-            <TableRow android:id="@+id/tableRow3" android:layout_width="wrap_content" android:layout_height="wrap_content"></TableRow>
-            <TableRow android:id="@+id/tableRow4" android:layout_width="wrap_content" android:layout_height="wrap_content"></TableRow>
+
+            <TableRow
+                android:id="@+id/tableRow3"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+            </TableRow>
+
+            <TableRow
+                android:id="@+id/tableRow4"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" >
+            </TableRow>
 
             <TableRow
                 android:id="@+id/tableRow01"
@@ -124,14 +202,14 @@
                     android:text="TextView"
                     android:textColor="@android:color/black" />
             </TableRow>
-
         </TableLayout>
+
     </RelativeLayout>
 
-     <TextView
-         android:id="@+id/textView1"
-         android:layout_width="wrap_content"
-         android:layout_height="wrap_content"
-         android:text="TextView" />
+    <TextView
+        android:id="@+id/textView1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
 
 </LinearLayout>

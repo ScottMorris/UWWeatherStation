@@ -51,8 +51,8 @@ public class UWWeatherSationActivity extends Activity {
         
         boolean weatherDataSuccess = updateWeatherData();
         
-        homeButton = (Button)findViewById(R.id.homeButton);
-        homeButton.setVisibility(View.INVISIBLE);
+        /*homeButton = (Button)findViewById(R.id.homeButton);
+        homeButton.setVisibility(View.INVISIBLE);*/
         
         testButton = (Button)findViewById(R.id.testButton);
         testButton.setVisibility(View.INVISIBLE);
@@ -165,7 +165,7 @@ public class UWWeatherSationActivity extends Activity {
         counter++;
         
         //TODO: Check freshness of the file (maybe reorganise the lookup procedure by
-        //moving the XML retrieval to the the end.
+        //moving the XML retrieval to the the end.)
         
         //Get XML Data from weather.uwaterloo.ca
         boolean test = getXMLData();
@@ -173,7 +173,7 @@ public class UWWeatherSationActivity extends Activity {
 		try {
 			if (!test)
 				testView.append("\nNo Internet Connection");
-			//Write XML Data to a local file
+			//Read XML Data from local file
 			FileInputStream fis = openFileInput("weather.xml");
 			testView.append("\nOpened File");
 			//Create an Instance of the Parser
@@ -222,7 +222,7 @@ public class UWWeatherSationActivity extends Activity {
 		temp24Min.setText(String.valueOf(temp24MinNum) + tempSuffix);
 		//precipitation_24hr_mm
 		precip24.setText(xmlContents.get("precipitation_24hr_mm") + " mm");
-		updateDateTime.setText(currentFileDateTime.toLocaleString());
+		updateDateTime.setText(df.format(currentFileDateTime));
 		
 		
 		return success;
