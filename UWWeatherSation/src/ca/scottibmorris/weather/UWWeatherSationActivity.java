@@ -13,6 +13,8 @@ import java.util.Date;
 import java.util.HashMap;
 
 import android.app.Activity;
+import android.graphics.Color;
+import android.graphics.PorterDuff;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,7 +31,7 @@ public class UWWeatherSationActivity extends Activity {
      */
 	public ImageView logo;
 	public Button testButton, homeButton;
-	public TextView tempValue, testView;
+	public TextView titleBarText, tempValue, testView;
 	HashMap<String, String> xmlContents;
     
 	/*
@@ -46,14 +48,24 @@ public class UWWeatherSationActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
         
+        //University logo object
         logo = (ImageView)findViewById(R.id.uwLogo);
         logo.setImageResource(R.drawable.uwaterloo_logo);
         
+        //Title Bar logo TextView Object
+        titleBarText = (TextView)findViewById(R.id.weatherLogoText);
+        
+        //Set Title Bar colours to White
+        logo.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
+        titleBarText.setTextColor(Color.WHITE);
+        
+        /**TODO: Refactor this out so the app starts faster
+        	Could also organise it to only update the XML every 15 min */
+        
+        //Initialize current weather data upon launch
         boolean weatherDataSuccess = updateWeatherData();
         
-        /*homeButton = (Button)findViewById(R.id.homeButton);
-        homeButton.setVisibility(View.INVISIBLE);*/
-        
+        //Test button Object - depreciated
         testButton = (Button)findViewById(R.id.testButton);
         testButton.setVisibility(View.INVISIBLE);
         testButton.setOnClickListener(new OnClickListener() {
@@ -131,7 +143,7 @@ public class UWWeatherSationActivity extends Activity {
     		
     	} catch (Exception e) {
     		success = false;
-    		//TODO: Wrote to application log
+    		//TODO: Write to application log
     		/*AlertDialog errorMessage = new AlertDialog.Builder(this).create();
     		errorMessage.setTitle("Network Error");
     		errorMessage.setMessage(e.toString());
@@ -224,7 +236,7 @@ public class UWWeatherSationActivity extends Activity {
 		precip24.setText(xmlContents.get("precipitation_24hr_mm") + " mm");
 		updateDateTime.setText(df.format(currentFileDateTime));
 		
-		
+		//Return result of update operation
 		return success;
     }
     
