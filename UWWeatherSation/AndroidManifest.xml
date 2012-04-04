@@ -6,7 +6,7 @@
     <uses-sdk android:minSdkVersion="7" />
 
     <application android:icon="@drawable/icon_sun" android:label="@string/app_name">
-        <activity android:name=".UWWeatherSationActivity"
+        <activity android:name=".UWWeatherStationActivity"
                   android:label="@string/app_name"
                   android:theme="@android:style/Theme.NoTitleBar">
             <intent-filter>
