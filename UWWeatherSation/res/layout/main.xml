@@ -211,6 +211,14 @@
 
     </RelativeLayout>
 
+    <Button
+        android:id="@+id/tempGraphGoToButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="20dip"
+        android:text="Temperature Graph" />
+
     <TextView
         android:id="@+id/textView1"
         android:layout_width="wrap_content"

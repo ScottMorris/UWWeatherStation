@@ -1,0 +1,68 @@
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="@android:color/white" 
+    android:isScrollContainer="true"
+    android:orientation="vertical" > <!-- Original Colour "#d3f4ff"  -->
+
+        <LinearLayout
+            android:id="@+id/navigationBar"
+            android:layout_width="fill_parent"
+            android:layout_height="60px"
+            android:orientation="vertical" >
+
+            <LinearLayout
+                android:id="@+id/linearLayout2"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:background="@drawable/title_bar_gradient_new" >
+
+                <ImageView
+                    android:id="@+id/uwLogo"
+                    android:layout_width="wrap_content"
+                    android:layout_height="fill_parent"
+                    android:layout_gravity="bottom"
+                    android:layout_marginLeft="3px"
+                    android:paddingTop="3px"
+                    android:src="@drawable/uwaterloo_logo" />
+
+                <TextView
+                    android:id="@+id/weatherLogoText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="bottom"
+                    android:paddingBottom="2px"
+                    android:paddingLeft="3px"
+                    android:text="Weather Station"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="#231f20"
+                    android:textStyle="bold" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <RelativeLayout
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:id="@+id/tempGraphLabel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_centerHorizontal="true"
+                android:text="Temperature"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textColor="@android:color/black" />
+
+            <ImageView
+                android:id="@+id/tempGraphImageView"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/tempGraphLabel"
+                android:layout_centerHorizontal="true"
+                android:src="@drawable/icon" />
+
+        </RelativeLayout>
+
+    </LinearLayout>

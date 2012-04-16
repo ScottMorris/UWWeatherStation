@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.HashMap;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.os.Bundle;
@@ -30,9 +31,8 @@ public class UWWeatherStationActivity extends Activity {
      * Resource Variables
      */
 	public ImageView logo;
-	public Button testButton, homeButton;
+	public Button testButton, homeButton, graphsGoToButton;
 	public TextView titleBarText, tempValue, testView;
-	HashMap<String, String> xmlContents;
     
 	/*
 	 * Other Variables
@@ -40,6 +40,7 @@ public class UWWeatherStationActivity extends Activity {
 	boolean isCelsius = true;
     String tempSuffix = "°C";
     int counter = 0;
+    HashMap<String, String> xmlContents;
     
     
 	/** Called when the activity is first created. */
@@ -58,6 +59,18 @@ public class UWWeatherStationActivity extends Activity {
         //Set Title Bar colours to White
         logo.setColorFilter(Color.WHITE, PorterDuff.Mode.SRC_ATOP);
         titleBarText.setTextColor(Color.WHITE);
+        
+        //Link action to Graph Button
+        graphsGoToButton = (Button)findViewById(R.id.tempGraphGoToButton);
+        graphsGoToButton.setOnClickListener(new OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				Intent weatherGraphs = new Intent(v.getContext(), WeatherGraphs.class);
+				startActivityForResult(weatherGraphs, -1);	
+			}
+		});
         
         /**TODO: Refactor this out so the app starts faster
         	Could also organise it to only update the XML every 15 min */
