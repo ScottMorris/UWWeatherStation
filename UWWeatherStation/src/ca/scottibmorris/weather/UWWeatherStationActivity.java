@@ -1,7 +1,9 @@
 package ca.scottibmorris.weather;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.InputStreamReader;
 import java.net.URL;
@@ -13,10 +15,17 @@ import java.util.Date;
 import java.util.HashMap;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.graphics.Color;
 import android.graphics.PorterDuff;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Bundle;
+import android.text.method.DateTimeKeyListener;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -41,6 +50,8 @@ public class UWWeatherStationActivity extends Activity {
     String tempSuffix = "°C";
     int counter = 0;
     HashMap<String, String> xmlContents;
+    boolean networkAlive = true;
+    BroadcastReceiver networkStateReceiver = null;
     
     
 	/** Called when the activity is first created. */
@@ -75,6 +86,11 @@ public class UWWeatherStationActivity extends Activity {
         /**TODO: Refactor this out so the app starts faster
         	Could also organise it to only update the XML every 15 min */
         
+        AlertDialog alertDialog = new AlertDialog.Builder(this).create();
+        //networkAlive = checkNetworkState();
+        networkStateReceiver = checkNetworkStateRegisterReceiver(alertDialog);
+        	
+        
         //Initialize current weather data upon launch
         boolean weatherDataSuccess = updateWeatherData();
         
@@ -89,6 +105,13 @@ public class UWWeatherStationActivity extends Activity {
 			}
 		});
         
+    }
+    
+    @Override
+    protected void onDestroy() {
+            unregisterReceiver(networkStateReceiver);
+    
+            super.onDestroy();
     }
     
     /*
@@ -119,6 +142,32 @@ public class UWWeatherStationActivity extends Activity {
 		return super.onOptionsItemSelected(item);
 	}
 
+	private BroadcastReceiver checkNetworkStateRegisterReceiver(final AlertDialog alertDialog){
+		
+		BroadcastReceiver networkStateReveiver = new BroadcastReceiver() {
+			
+			@Override
+			public void onReceive(Context context, Intent intent) {
+				//check for connectivity:
+				ConnectivityManager connectivityManager = (ConnectivityManager) 
+				context.getSystemService(Context.CONNECTIVITY_SERVICE);
+				NetworkInfo TestConnetion = connectivityManager.getActiveNetworkInfo();
+				if (TestConnetion == null){
+					networkAlive = false;
+				}
+				/*alertDialog.setTitle("Network State");
+				alertDialog.setMessage(String.valueOf(networkAlive));
+				alertDialog.show();*/
+			}
+		};
+		
+		registerReceiver(networkStateReveiver,new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
+		
+		return networkStateReveiver;
+	}
+	
+	
+	
 	/*
 	 * switchCelsiusFahrenheit
 	 * Toggles the displayed temperatures between Celsius and Fahrenheit
@@ -144,6 +193,24 @@ public class UWWeatherStationActivity extends Activity {
     	String xmlDataFilename = "weather.xml", xmlDataString = "", temp = "";
     	
     	try {
+    		File data;
+    			data = new File(this.getFilesDir().getAbsolutePath() + "/" + xmlDataFilename);
+    		//if(data.exists()){
+    			//check properties
+    			Date now = new Date(); //0 -> 899,999
+    			if (networkAlive && data.lastModified() <= now.getTime()-(now.getTime()%900000)) { //Update Condition
+    				xmlDataURL = new URL(xmlDataAddress);
+    	    		urlConn = xmlDataURL.openConnection();
+    	    		BufferedReader in = new BufferedReader(new InputStreamReader(urlConn.getInputStream()));
+    	    		while ((temp = in.readLine()) != null) {
+    	    			xmlDataString += temp + "\n";
+    	    		}
+    	    		FileOutputStream fos = openFileOutput(xmlDataFilename, MODE_PRIVATE);
+    	    		fos.write(xmlDataString.getBytes());
+    	    		fos.close();
+    			}
+    		//}
+    		/*
     		xmlDataURL = new URL(xmlDataAddress);
     		urlConn = xmlDataURL.openConnection();
     		BufferedReader in = new BufferedReader(new InputStreamReader(urlConn.getInputStream()));
@@ -152,7 +219,7 @@ public class UWWeatherStationActivity extends Activity {
     		}
     		FileOutputStream fos = openFileOutput(xmlDataFilename, MODE_PRIVATE);
     		fos.write(xmlDataString.getBytes());
-    		fos.close();
+    		fos.close();*/
     		
     	} catch (Exception e) {
     		success = false;

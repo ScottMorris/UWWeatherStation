@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.List;
 
 import android.app.Activity;
 import android.graphics.Color;
@@ -37,6 +39,9 @@ public class WeatherGraphs extends Activity {
 		 * Other Variables
 		 */
 		
+		List<String> graphFileNames = new ArrayList<String>();
+		graphFileNames.add("AirTemp_0.jpg");
+		
 		String graph;
 		File filePath;
 		
@@ -60,8 +65,10 @@ public class WeatherGraphs extends Activity {
          */
 		
 		tempGraphImage = (ImageView)findViewById(R.id.tempGraphImageView);
+		
+		graphFileNames.add("tempGraph.jpg");
 		try {
-			graph = fetchGraphs();
+			graph = fetchGraphs(graphFileNames);
 		filePath = getFileStreamPath(graph);
 		tempGraphImage.setImageDrawable(Drawable.createFromPath(filePath.getPath()));
 		} catch (IOException e) {
@@ -78,10 +85,10 @@ public class WeatherGraphs extends Activity {
 	 * Retrieve weather graphs from weather.uwaterloo.ca 
 	 */
 	
-	private String fetchGraphs() throws IOException {
+	private String fetchGraphs(List<String> graphFileNames) throws IOException {
 		
 		//Download garph data
-		String tempGraphURLString = "http://weather.uwaterloo.ca/download/AirTemp_0.jpg";
+		String tempGraphURLString = "http://weather.uwaterloo.ca/download/";
 		URL tempGraphURL = new URL(tempGraphURLString);
 		URLConnection conn = tempGraphURL.openConnection();
 		BufferedInputStream imgIn = new BufferedInputStream(conn.getInputStream());
